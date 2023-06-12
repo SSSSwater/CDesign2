@@ -1,0 +1,211 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>杭州</title>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/MyCSS.css">
+    <!--    引入vue-->
+    <script src="js/vue.js"></script>
+    <!--    引入element组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!--    引入element样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue-baidu-map"></script>
+</head>
+<style>
+    .el-textarea__inner {
+        font-size: 17px;
+        height: 150px;
+        resize: none;
+    }
+
+    .el-descriptions__title {
+        font-size: 30px;
+    }
+
+    .desFont {
+        font-size: 17px;
+    }
+
+    .desLabel {
+        width: 100px;
+        height: 50px;
+        font-size: 20px;
+    }
+
+    .avatar-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 150px;
+        height: 150px;
+        line-height: 150px;
+        text-align: center;
+    }
+
+    .avatar {
+        width: 150px;
+        height: 150px;
+        display: block;
+    }
+
+    .bm-view {
+        width: 100%;
+        height: 300px;
+    }
+</style>
+
+<body id="top" style="
+        font-family: '等线';">
+<script>
+    Vue.use(VueBaiduMap.default, {
+        ak: '1YLpdgUFuoXtxMQsiFlpn9G1BYdM1mM9'
+    })
+        ;
+</script>
+    <div id="intro">
+        <div class="container">
+            <header
+                class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+
+                <h1 class="top-text">杭州</h1>
+            </header>
+        </div>
+        <div class="container" style="overflow-y: auto;height: 80%">
+            <el-row class="tac">
+                <el-col :span="6">
+                    <div style="height: 70%;overflow: auto">
+                        <el-row>
+                            <el-col :span="9"><label style="font-size: 25px">xx景点!</label></el-col>
+                        </el-row>
+                        <el-menu default-active="" @select="handleSelect" class="el-menu-vertical-demo">
+                            <el-submenu index="1">
+                                <template slot="title">
+                                    <i class="el-icon-knife-fork"></i>
+                                    <span>吃的</span>
+                                </template>
+                                <el-menu-item-group>
+                                    <el-menu-item v-for="(food) in foods" :key="food.id"
+                                        :index="food.id">{{food.name}}</el-menu-item>
+                                </el-menu-item-group>
+                            </el-submenu>
+                            <el-submenu index="2">
+                                <template slot="title">
+                                    <i class="el-icon-position"></i>
+                                    <span>玩的</span>
+                                </template>
+                                <el-menu-item-group>
+                                    <el-menu-item v-for="(scene) in scenes" :key="scene.id"
+                                        :index="scene.id">{{scene.name}}</el-menu-item>
+                                </el-menu-item-group>
+                            </el-submenu>
+                            <el-submenu index="3">
+                                <template slot="title">
+                                    <i class="el-icon-collection"></i>
+                                    <span>看的</span>
+                                </template>
+                                <el-menu-item-group>
+                                    <el-menu-item v-for="(culture) in cultures" :key="culture.id"
+                                        :index="culture.id">{{culture.name}}</el-menu-item>
+                                </el-menu-item-group>
+                            </el-submenu>
+                        </el-menu>
+                    </div>
+                </el-col>
+                <el-col :span="6">
+                    <div style="height: 90%;overflow: auto">
+                    <el-descriptions class="margin-top" :title="curName" :column="1" direction="vertical" label-class-name="desLabel" content-class-name="desFont">
+                        <el-descriptions-item label="简要介绍">
+                            <span style="margin-left: 5px">{{curDetail}}</span>
+                        </el-descriptions-item>
+                    </el-descriptions>
+                </div>
+                </el-col>
+                <el-col :span="12">
+                    <baidu-map :center="center" :zoom="zoom" @ready="handler" style="height: 95%;width: 99%;"></baidu-map>
+                    </div>
+                </el-col>
+            </el-row>
+        </div>
+    </div>
+
+</body>
+
+</html>
+<script>
+        
+    var intro = new Vue({
+        el: '#intro',
+        data() {
+            return {
+                isSelect: false,
+                foods:[
+                    {
+                        id:"1",
+                        name:"计带",
+                        location:[111,111],
+                        description:"是一所带专"
+                    }
+                ],
+                scenes: [
+                    {
+                        id:"1",
+                        name:"顶针珍珠",
+                        location:[211,211],
+                        description:"喜欢说藏话"
+                    }
+                ],
+                cultures:[
+                    {
+                        id:"1",
+                        name:"灌注涌出塔菲谢谢秒",
+                        location:[11,11],
+                        description:"rsq大师"
+                    }
+                ],
+                curId: "",
+                curName: "",
+                curDetail: "",
+                curImg: "",
+                center: { lng: 0, lat: 0 },
+                zoom: 3
+            }
+        },
+        methods: {
+            handler({ BMap, map }) {
+                console.log(BMap, map)
+                this.center.lng = 116.404
+                this.center.lat = 39.915
+                this.zoom = 15
+            },
+            handleSelect(key, keyPath) {
+                console.log(keyPath);
+                if(keyPath[0]=="1"){
+                    this.curDetail=this.foods[keyPath[1]-1].description;
+                }else if(keyPath[0]=="2"){
+                    this.curDetail=this.scenes[keyPath[1]-1].description;
+                }else if(keyPath[0]=="3"){
+                    this.curDetail=this.cultures[keyPath[1]-1].description;
+                }
+                this.center.lng=199;
+                console.log(this.center);
+                intro.isSelect = true;
+            }
+        }
+    })
+
+</script>
