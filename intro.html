@@ -213,13 +213,151 @@
                         position:{lng: 120.371272, lat: 30.32652},
                         title:"中国计量大学"
                     },
-                ],
-                juniors: [
                     {
                         id:"2",
                         position:{lng: 120.088151, lat: 30.30763},
                         title:"浙江大学(紫金港校区)"
                     },
+                    {
+                        id:"3",
+                        position:{lng: 119.826581, lat: 30.287112},
+                        title:'浙江大学'
+                    },
+                    {
+                        id:'4',
+                        position:{lng: 120.129784, lat: 30.270024},
+                        title:"浙江大学(玉泉校区)" 
+                    },
+                    {
+                        id:'5',
+                        position:{lng: 120.149043, lat: 30.279944},
+                        title:"浙江大学(西溪校区)"   
+                    },
+                    {
+                        id:'6',
+                        position:{lng: 120.131177, lat: 30.198675},
+                        title:"浙江大学(之江校区)"
+                    },
+                    {
+                        id:'7',
+                        position:{lng: 120.20198, lat: 30.274132},
+                        title:"浙江大学(华家池校区)"
+                    },
+                    {
+                        id:'8',
+                        position:{lng: 119.832111, lat: 30.29678},
+                        title:"杭州电子科技大学信息工程学院(青山湖校区)"
+                    },
+                    {
+                        id:'9',
+                        position:{lng: 120.092064, lat: 30.255087},
+                        title:"杭州电子科技大学信息工程学院(东岳校区)"
+                    },
+                    {
+                        id:'10',
+                        position:{lng: 120.128076, lat: 30.303841},
+                        title:"杭州电子科技大学成教学院"
+                    }, 
+                    {
+                        id:'11',
+                        position:{lng: 120.145771, lat: 30.293258},
+                        title:"杭州电子科技大学(文一校区)"
+                    }, 
+                    {
+                        id:'12',
+                        position:{lng: 120.350396, lat: 30.320321},
+                        title:"杭州电子科技大学(下沙校区)"
+                    }, 
+                    {
+                        id:'13',
+                        position:{lng: 120.386227, lat: 30.307495},
+                        title:"杭州电子科技大学软件工程学院"
+                    },
+                    {
+                        id:'14',
+                        position:{lng: 120.046713, lat: 30.233578},
+                        title:"浙江工业大学(屏峰校区)"
+                    },
+                    {
+                        id:'15',
+                        position:{lng: 120.09052, lat: 30.168759},
+                        title:"浙江工业大学成教院"
+                    },
+                    {
+                        id:'16',
+                        position:{lng: 120.157606, lat: 30.187015},
+                        title:"浙江工业大(国际学院)"
+                    },
+                    {
+                        id:'17',
+                        position:{lng: 120.173306, lat: 30.298765},
+                        title:"浙江工业大学(朝晖校区)"
+                    },
+                    {
+                        id:'18',
+                        position:{lng: 120.163263, lat: 30.300908},
+                        title:"浙江工业大学(假山校区)"
+                    },
+                    {
+                        id:'19',
+                        position:{lng: 120.297185, lat: 30.485829},
+                        title:"浙江理工大学(临平校区)"
+                    },
+                    {
+                        id:'20',
+                        position:{lng: 120.350311, lat: 30.332038},
+                        title:"浙江理工大学(西溪分院)"
+                    },
+                    {
+                        id:'21',
+                        position:{lng: 120.361404, lat: 30.319812},
+                        title:"浙江理工大学(下沙校区)"
+                    },
+                    {
+                        id:'22',
+                        position:{lng: 120.351621, lat: 30.303157},
+                        title:"浙江理工大学继续教育学院"
+                    },
+                    {
+                        id:'23',
+                        position:{lng: 119.687639, lat: 30.241012},
+                        title:"浙江农林大学科技园"
+                    },
+                    {
+                        id:'24',
+                        position:{lng: 119.735224, lat: 30.243346},
+                        title:"浙江农林大学天目学院(衣锦校区)"
+                    },
+                    {
+                        id:'25',
+                        position:{lng: 119.735813, lat: 30.240167},
+                        title:"浙江农林大学(南校区)"
+                    },
+                    {
+                        id:'26',
+                        position:{lng: 119.735143, lat: 30.261266},
+                        title:"浙江农林大学(东湖校区)"
+                    },
+                    {
+                        id:'27',
+                        position:{lng: 120.160812, lat: 30.177501},
+                        title:"浙江中医药大学(滨文校区)"
+                    },
+                    {
+                        id:'28',
+                        position:{lng: 119.894257, lat: 30.090223},
+                        title:"浙江中医药大学(富春校区)"
+                    },
+                    {
+                        id:'29',
+                        position:{lng: 119.894257, lat: 30.090223},
+                        title:""
+                    },
+                ],
+                juniors: [
+                    
+
+
                 ],
                 curId: "",
                 curName: "",
@@ -265,11 +403,15 @@
                 this.markerViewList=[]
                 for(i=0;i<this.regulars.length;i++){
                     let t = this.regulars[i]
+                    if(t.title.includes(this.keyword)){
                     this.markerViewList.push(t)
+                    }
                 }
                 for(i=0;i<this.juniors.length;i++){
                     let t = this.juniors[i]
+                    if(t.title.includes(this.keyword)){
                     this.markerViewList.push(t)
+                    }
                 }
             }
 
