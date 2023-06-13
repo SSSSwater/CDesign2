@@ -151,12 +151,11 @@
                         <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true"
                             :autoLocation="true"></bm-geolocation>
                         <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
-                        <bm-local-search :keyword="keyword" :auto-viewport="true"
-                            :location="location"></bm-local-search>
+<!--                        <bm-local-search :keyword="keyword" :auto-viewport="true"-->
+<!--                            :location="location"></bm-local-search>-->
                         <bm-marker v-for="(marker) in markerViewList" :id="marker.id" :position="marker.position"
-                            :title="marker.title" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>
+                            :title="marker.title"></bm-marker>
                     </baidu-map>
-
 
                 </el-col>
             </el-row>
@@ -167,7 +166,6 @@
 
 </html>
 <script>
-
     var intro = new Vue({
         el: '#intro',
         data() {
@@ -721,11 +719,9 @@
             handleSelect(key, keyPath) {
                 console.log(keyPath);
                 if (keyPath[0] == "1") {
-                    this.curDetail = this.foods[keyPath[1] - 1].description;
+                    this.curDetail = this.regulars[keyPath[1] - 1].description;
                 } else if (keyPath[0] == "2") {
-                    this.curDetail = this.scenes[keyPath[1] - 1].description;
-                } else if (keyPath[0] == "3") {
-                    this.curDetail = this.cultures[keyPath[1] - 1].description;
+                    this.curDetail = this.juniors[keyPath[1] - 1].description;
                 }
                 this.center.lng = 120.371272;
                 this.center.lat = 30.32652;
@@ -756,5 +752,6 @@
 
         }
     })
+
 
 </script>
