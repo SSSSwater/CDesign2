@@ -71,16 +71,15 @@
 
 <body id="top" style="
         font-family: '等线';">
-<script>
-    Vue.use(VueBaiduMap.default, {
-        ak: '1YLpdgUFuoXtxMQsiFlpn9G1BYdM1mM9'
-    })
-        ;
-</script>
+    <script>
+        Vue.use(VueBaiduMap.default, {
+            ak: '1YLpdgUFuoXtxMQsiFlpn9G1BYdM1mM9'
+        })
+            ;
+    </script>
     <div id="intro">
         <div class="container">
-            <header
-                class=" align-items-center py-3 mb-4 border-bottom">
+            <header class=" align-items-center py-3 mb-4 border-bottom">
 
                 <h1 class="top-text">杭州</h1>
 
@@ -95,7 +94,7 @@
                         <label style="font-size: 25px">关键字检索</label>
                     </el-col>
                     <el-col :span="20">
-                        <el-input placeholder="请输入内容" @input="search" v-model="keyword" class="input-with-select">
+                        <el-input placeholder="请输入内容" @input="search" v-model="keyword" class="input-with-select" value="">
                             <el-button slot="append" icon="el-icon-search"></el-button>
                         </el-input>
                     </el-col>
@@ -133,63 +132,32 @@
                 </el-col>
                 <el-col :span="6">
                     <div style="height: 90%;overflow: auto">
-                    <el-descriptions class="margin-top" :title="curName" :column="1" direction="vertical" label-class-name="desLabel" content-class-name="desFont">
-                        <el-descriptions-item label="简要介绍">
-                            <span style="margin-left: 5px">{{curDetail}}</span>
-                        </el-descriptions-item>
-                    </el-descriptions>
-                </div>
+                        <el-descriptions class="margin-top" :title="curName" :column="1" direction="vertical"
+                            label-class-name="desLabel" content-class-name="desFont">
+                            <el-descriptions-item label="简要介绍">
+                                <span style="margin-left: 5px">{{curDetail}}</span>
+                            </el-descriptions-item>
+                        </el-descriptions>
+                    </div>
                 </el-col>
                 <el-col :span="12">
-                    <label>经度：</label><input v-model.number="center.lng">
+                    <!-- <label>经度：</label><input v-model.number="center.lng">
                     <label>纬度：</label><input v-model.number="center.lat">
                     <label>缩放：</label><input v-model.number="zoom">
-                    <label>地区：<input v-model="location"></label>
-                    <baidu-map 
-                        :center="center" 
-                        :zoom="zoom" 
-                        @ready="handler" 
-                        style="height: 95%;width: 99%;" 
-                        :scroll-wheel-zoom="true"
-                        @moving="syncCenterAndZoom"
-                        @moveend="syncCenterAndZoom"
+                    <label>地区：<input v-model="location"></label> -->
+                    <baidu-map :center="center" :zoom="zoom" @ready="handler" style="height: 95%;width: 99%;"
+                        :scroll-wheel-zoom="true" @moving="syncCenterAndZoom" @moveend="syncCenterAndZoom"
                         @zoomend="syncCenterAndZoom">
-                        <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
+                        <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true"
+                            :autoLocation="true"></bm-geolocation>
                         <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
-                        <bm-local-search :keyword="keyword" :auto-viewport="true" :location="location"></bm-local-search>
+                        <bm-local-search :keyword="keyword" :auto-viewport="true"
+                            :location="location"></bm-local-search>
                         <bm-marker v-for="(marker) in markerViewList" :id="marker.id" :position="marker.position"
-                        :title="marker.title" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>
-<!--                        <bm-marker id="1" :position="{lng: 120.371272, lat: 30.32652}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE" title="中国计量大学" @click="">-->
-<!--                            <bm-label content="" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>-->
-<!--                        </bm-marker>-->
-<!--                        <bm-marker id="2" :position="{lng: 120.088151, lat: 30.30763}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE" title="浙江大学(紫金港校区)" @click="">-->
-<!--                            <bm-label content="" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>-->
-<!--                        </bm-marker>-->
-<!--                        <bm-marker id="浙江大学" :position="{lng: 119.826581, lat: 30.287112}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE" title="浙江大学" @click="">-->
-<!--                            <bm-label content="" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>-->
-<!--                        </bm-marker>-->
-<!--                        <bm-marker id="浙江大学(玉泉校区)" :position="{lng: 120.129784, lat: 30.270024}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE" title="浙江大学(玉泉校区)" @click="">-->
-<!--                            <bm-label content="" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>-->
-<!--                        </bm-marker>-->
-<!--                        <bm-marker id="浙江大学(西溪校区)" :position="{lng: 120.149043, lat: 30.279944}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE" title="浙江大学(西溪校区)" @click="">-->
-<!--                            <bm-label content="" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>-->
-<!--                        </bm-marker>-->
-<!--                        <bm-marker id="浙江大学(之江校区)" :position="{lng: 120.131177, lat: 30.198675}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE" title="浙江大学(之江校区)" @click="">-->
-<!--                            <bm-label content="" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>-->
-<!--                        </bm-marker>-->
-<!--                        <bm-marker id="浙江大学(华家池校区)" :position="{lng: 120.20198, lat: 30.274132}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE" title="浙江大学(华家池校区)" @click="">-->
-<!--                            <bm-label content="" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>-->
-<!--                        </bm-marker>-->
-<!--                        <bm-marker id="杭州电子科技大学信息工程学院(青山湖校区)" :position="{lng: 119.832111, lat: 30.29678}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE" title="杭州电子科技大学信息工程学院(青山湖校区)" @click="">-->
-<!--                            <bm-label content="" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>-->
-<!--                        </bm-marker>-->
-<!--                        <bm-marker id="杭州电子科技大学信息工程学院(东岳校区)" :position="{lng: 120.092064, lat: 30.255087}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE" title="杭州电子科技大学信息工程学院(东岳校区)" @click="">-->
-<!--                            <bm-label content="" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>-->
-<!--                        </bm-marker>-->
-                        
+                            :title="marker.title" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>
                     </baidu-map>
-                    
-                    
+
+
                 </el-col>
             </el-row>
         </div>
@@ -199,163 +167,534 @@
 
 </html>
 <script>
-        
+
     var intro = new Vue({
         el: '#intro',
         data() {
             return {
                 isSelect: false,
-                markerViewList:[
+                markerViewList: [
                 ],
-                regulars:[
+                regulars: [
                     {
-                        id:"1",
-                        position:{lng: 120.371272, lat: 30.32652},
-                        title:"中国计量大学"
+                        id: "1",
+                        position: { lng: 120.371272, lat: 30.32652 },
+                        title: "中国计量大学"
                     },
                     {
-                        id:"2",
-                        position:{lng: 120.088151, lat: 30.30763},
-                        title:"浙江大学(紫金港校区)"
+                        id: "2",
+                        position: { lng: 120.088151, lat: 30.30763 },
+                        title: "浙江大学(紫金港校区)"
                     },
                     {
-                        id:"3",
-                        position:{lng: 119.826581, lat: 30.287112},
-                        title:'浙江大学'
+                        id: "3",
+                        position: { lng: 119.826581, lat: 30.287112 },
+                        title: '浙江大学'
                     },
                     {
-                        id:'4',
-                        position:{lng: 120.129784, lat: 30.270024},
-                        title:"浙江大学(玉泉校区)" 
+                        id: '4',
+                        position: { lng: 120.129784, lat: 30.270024 },
+                        title: "浙江大学(玉泉校区)"
                     },
                     {
-                        id:'5',
-                        position:{lng: 120.149043, lat: 30.279944},
-                        title:"浙江大学(西溪校区)"   
+                        id: '5',
+                        position: { lng: 120.149043, lat: 30.279944 },
+                        title: "浙江大学(西溪校区)"
                     },
                     {
-                        id:'6',
-                        position:{lng: 120.131177, lat: 30.198675},
-                        title:"浙江大学(之江校区)"
+                        id: '6',
+                        position: { lng: 120.131177, lat: 30.198675 },
+                        title: "浙江大学(之江校区)"
                     },
                     {
-                        id:'7',
-                        position:{lng: 120.20198, lat: 30.274132},
-                        title:"浙江大学(华家池校区)"
+                        id: '7',
+                        position: { lng: 120.20198, lat: 30.274132 },
+                        title: "浙江大学(华家池校区)"
                     },
                     {
-                        id:'8',
-                        position:{lng: 119.832111, lat: 30.29678},
-                        title:"杭州电子科技大学信息工程学院(青山湖校区)"
+                        id: '8',
+                        position: { lng: 119.832111, lat: 30.29678 },
+                        title: "杭州电子科技大学信息工程学院(青山湖校区)"
                     },
                     {
-                        id:'9',
-                        position:{lng: 120.092064, lat: 30.255087},
-                        title:"杭州电子科技大学信息工程学院(东岳校区)"
+                        id: '9',
+                        position: { lng: 120.092064, lat: 30.255087 },
+                        title: "杭州电子科技大学信息工程学院(东岳校区)"
                     },
                     {
-                        id:'10',
-                        position:{lng: 120.128076, lat: 30.303841},
-                        title:"杭州电子科技大学成教学院"
-                    }, 
-                    {
-                        id:'11',
-                        position:{lng: 120.145771, lat: 30.293258},
-                        title:"杭州电子科技大学(文一校区)"
-                    }, 
-                    {
-                        id:'12',
-                        position:{lng: 120.350396, lat: 30.320321},
-                        title:"杭州电子科技大学(下沙校区)"
-                    }, 
-                    {
-                        id:'13',
-                        position:{lng: 120.386227, lat: 30.307495},
-                        title:"杭州电子科技大学软件工程学院"
+                        id: '10',
+                        position: { lng: 120.128076, lat: 30.303841 },
+                        title: "杭州电子科技大学成教学院"
                     },
                     {
-                        id:'14',
-                        position:{lng: 120.046713, lat: 30.233578},
-                        title:"浙江工业大学(屏峰校区)"
+                        id: '11',
+                        position: { lng: 120.145771, lat: 30.293258 },
+                        title: "杭州电子科技大学(文一校区)"
                     },
                     {
-                        id:'15',
-                        position:{lng: 120.09052, lat: 30.168759},
-                        title:"浙江工业大学成教院"
+                        id: '12',
+                        position: { lng: 120.350396, lat: 30.320321 },
+                        title: "杭州电子科技大学(下沙校区)"
                     },
                     {
-                        id:'16',
-                        position:{lng: 120.157606, lat: 30.187015},
-                        title:"浙江工业大(国际学院)"
+                        id: '13',
+                        position: { lng: 120.386227, lat: 30.307495 },
+                        title: "杭州电子科技大学软件工程学院"
                     },
                     {
-                        id:'17',
-                        position:{lng: 120.173306, lat: 30.298765},
-                        title:"浙江工业大学(朝晖校区)"
+                        id: '14',
+                        position: { lng: 120.046713, lat: 30.233578 },
+                        title: "浙江工业大学(屏峰校区)"
                     },
                     {
-                        id:'18',
-                        position:{lng: 120.163263, lat: 30.300908},
-                        title:"浙江工业大学(假山校区)"
+                        id: '15',
+                        position: { lng: 120.09052, lat: 30.168759 },
+                        title: "浙江工业大学成教院"
                     },
                     {
-                        id:'19',
-                        position:{lng: 120.297185, lat: 30.485829},
-                        title:"浙江理工大学(临平校区)"
+                        id: '16',
+                        position: { lng: 120.157606, lat: 30.187015 },
+                        title: "浙江工业大学(国际学院)"
                     },
                     {
-                        id:'20',
-                        position:{lng: 120.350311, lat: 30.332038},
-                        title:"浙江理工大学(西溪分院)"
+                        id: '17',
+                        position: { lng: 120.173306, lat: 30.298765 },
+                        title: "浙江工业大学(朝晖校区)"
                     },
                     {
-                        id:'21',
-                        position:{lng: 120.361404, lat: 30.319812},
-                        title:"浙江理工大学(下沙校区)"
+                        id: '18',
+                        position: { lng: 120.163263, lat: 30.300908 },
+                        title: "浙江工业大学(假山校区)"
                     },
                     {
-                        id:'22',
-                        position:{lng: 120.351621, lat: 30.303157},
-                        title:"浙江理工大学继续教育学院"
+                        id: "61",
+                        position: { lng: 120.084947, lat: 30.173665 },
+                        title: "浙江工业大学之江学院"
                     },
                     {
-                        id:'23',
-                        position:{lng: 119.687639, lat: 30.241012},
-                        title:"浙江农林大学科技园"
+                        id: '19',
+                        position: { lng: 120.297185, lat: 30.485829 },
+                        title: "浙江理工大学(临平校区)"
                     },
                     {
-                        id:'24',
-                        position:{lng: 119.735224, lat: 30.243346},
-                        title:"浙江农林大学天目学院(衣锦校区)"
+                        id: '20',
+                        position: { lng: 120.350311, lat: 30.332038 },
+                        title: "浙江理工大学(西溪分院)"
                     },
                     {
-                        id:'25',
-                        position:{lng: 119.735813, lat: 30.240167},
-                        title:"浙江农林大学(南校区)"
+                        id: '21',
+                        position: { lng: 120.361404, lat: 30.319812 },
+                        title: "浙江理工大学(下沙校区)"
                     },
                     {
-                        id:'26',
-                        position:{lng: 119.735143, lat: 30.261266},
-                        title:"浙江农林大学(东湖校区)"
+                        id: '22',
+                        position: { lng: 120.351621, lat: 30.303157 },
+                        title: "浙江理工大学继续教育学院"
                     },
                     {
-                        id:'27',
-                        position:{lng: 120.160812, lat: 30.177501},
-                        title:"浙江中医药大学(滨文校区)"
+                        id: "62",
+                        position: { lng: 120.14443, lat: 30.295281 },
+                        title: "浙江理工大学(文一校区)"
                     },
                     {
-                        id:'28',
-                        position:{lng: 119.894257, lat: 30.090223},
-                        title:"浙江中医药大学(富春校区)"
+                        id: "63",
+                        position: { lng: 120.031917, lat: 30.290438 },
+                        title: "浙江理工大学-科艺学院"
                     },
                     {
-                        id:'29',
-                        position:{lng: 119.894257, lat: 30.090223},
-                        title:""
+                        id: '23',
+                        position: { lng: 119.687639, lat: 30.241012 },
+                        title: "浙江农林大学科技园"
                     },
+                    {
+                        id: '24',
+                        position: { lng: 119.735224, lat: 30.243346 },
+                        title: "浙江农林大学天目学院(衣锦校区)"
+                    },
+                    {
+                        id: '25',
+                        position: { lng: 119.735813, lat: 30.240167 },
+                        title: "浙江农林大学(南校区)"
+                    },
+                    {
+                        id: '26',
+                        position: { lng: 119.735143, lat: 30.261266 },
+                        title: "浙江农林大学(东湖校区)"
+                    },
+                    {
+                        id: '27',
+                        position: { lng: 120.160812, lat: 30.177501 },
+                        title: "浙江中医药大学(滨文校区)"
+                    },
+                    {
+                        id: '28',
+                        position: { lng: 119.894257, lat: 30.090223 },
+                        title: "浙江中医药大学(富春校区)"
+                    },
+                    {
+                        id: "29",
+                        position: { lng: 120.401705, lat: 30.321583 },
+                        title: "杭州师范大学(下沙校区)"
+                    },
+                    {
+                        id: "30",
+                        position: { lng: 120.023312, lat: 30.298769 },
+                        title: "杭州师范大学"
+                    },
+                    {
+                        id: "31",
+                        position: { lng: 120.146002, lat: 30.288838 },
+                        title: "浙江师范大学(杭州校区)"
+                    },
+                    {
+                        id: "32",
+                        position: { lng: 120.163079, lat: 30.234659 },
+                        title: "杭州师范大学(玉皇山校区)"
+                    },
+                    {
+                        id: "33",
+                        position: { lng: 120.149634, lat: 30.32775 },
+                        title: "杭州师范大学"
+                    },
+                    {
+                        id: "34",
+                        position: { lng: 120.101458, lat: 30.31733 },
+                        title: "杭州师范大学"
+                    },
+                    {
+                        id: "35",
+                        position: { lng: 119.751383, lat: 29.834391 },
+                        title: "浙江工商大学杭州商学院(桐庐校区)"
+                    },
+                    {
+                        id: "36",
+                        position: { lng: 120.143022, lat: 30.291263 },
+                        title: "浙江工商大学(教工路校区)"
+                    },
+                    {
+                        id: "37",
+                        position: { lng: 120.395826, lat: 30.314764 },
+                        title: "浙江工商大学"
+                    },
+                    {
+                        id: "38",
+                        position: { lng: 120.167253, lat: 30.248759 },
+                        title: "中国美术学院(南山校区)"
+                    },
+                    {
+                        id: "39",
+                        position: { lng: 120.08573, lat: 30.160106 },
+                        title: "中国美术学院(象山中心校区)"
+                    },
+                    {
+                        id: "40",
+                        position: { lng: 120.044354, lat: 30.362787 },
+                        title: "中国美术学院(良渚校区)"
+                    },
+                    {
+                        id: "41",
+                        position: { lng: 120.382141, lat: 30.325537 },
+                        title: "中国计量大学(东校区)"
+                    },
+                    {
+                        id: "42",
+                        position: { lng: 120.033616, lat: 30.226334 },
+                        title: "浙江科技学院"
+                    },
+                    {
+                        id: "43",
+                        position: { lng: 120.380526, lat: 30.320487 },
+                        title: "浙江水利水电学院"
+                    },
+                    {
+                        id: "44",
+                        position: { lng: 120.118955, lat: 30.292222 },
+                        title: "浙江财经大学(文华校区)"
+                    },
+                    {
+                        id: "45",
+                        position: { lng: 120.14916, lat: 30.284914 },
+                        title: "浙江财经大学(文三校区)"
+                    },
+                    {
+                        id: "46",
+                        position: { lng: 120.401761, lat: 30.326157 },
+                        title: "浙江财经大学(下沙校区)"
+                    },
+                    {
+                        id: "47",
+                        position: { lng: 119.742207, lat: 30.283356 },
+                        title: "浙江警察学院(临安校区)"
+                    },
+                    {
+                        id: "48",
+                        position: { lng: 120.157324, lat: 30.176822 },
+                        title: "浙江警察学院"
+                    },
+                    {
+                        id: "49",
+                        position: { lng: 120.350037, lat: 30.326583 },
+                        title: "浙江传媒学院(下沙校区)"
+                    },
+                    {
+                        id: "50",
+                        position: { lng: 120.16244, lat: 30.328327 },
+                        title: "浙大城市学院(南校区)"
+                    },
+                    {
+                        id: "51",
+                        position: { lng: 120.162359, lat: 30.334334 },
+                        title: "浙大城市学院(北校区)"
+                    },
+                    {
+                        id: "52",
+                        position: { lng: 119.744287, lat: 30.215697 },
+                        title: "杭州医学院(临安校区)"
+                    },
+                    {
+                        id: "53",
+                        position: { lng: 119.840162, lat: 30.275177 },
+                        title: "杭州医学院(青山湖)"
+                    },
+                    {
+                        id: "54",
+                        position: { lng: 120.166309, lat: 30.177867 },
+                        title: "杭州医学院(滨江校区)"
+                    },
+                    {
+                        id: "55",
+                        position: { lng: 120.044568, lat: 30.226438 },
+                        title: "浙江外国语学院"
+                    },
+                    {
+                        id: "56",
+                        position: { lng: 120.059387, lat: 30.156833 },
+                        title: "浙江音乐学院"
+                    },
+                    {
+                        id: "57",
+                        position: { lng: 120.066314, lat: 30.161991 },
+                        title: "浙江音乐学院(北区)"
+                    },
+                    {
+                        id: "58",
+                        position: { lng: 120.165176, lat: 30.325673 },
+                        title: "浙江树人学院(北校区)"
+                    },
+                    {
+                        id: "59",
+                        position: { lng: 120.164148, lat: 30.323651 },
+                        title: "浙江树人大学(南校区)"
+                    },
+                    {
+                        id: "64",
+                        position: { lng: 120.043141, lat: 30.339735 },
+                        title: "西湖大学(云谷校区)"
+                    },
+                    {
+                        id: "60",
+                        position: { lng: 120.087172, lat: 30.140199 },
+                        title: "西湖大学"
+                    },
+
                 ],
                 juniors: [
-                    
+                    {
+                        id: "65",
+                        position: { lng: 120.094801, lat: 30.348987 },
+                        title: "浙江交通职业技术学院"
+                    },
+                    {
+                        id: "66",
+                        position: { lng: 120.09167, lat: 30.261562 },
+                        title: "浙江公路技师学校(浙江交通职业技术学院老河山校区)"
+                    },
+                    {
+                        id: "67",
+                        position: { lng: 119.273901, lat: 29.479198 },
+                        title: "国家电网浙江电力职业技术学院(浙西校区)"
+                    },
+                    {
+                        id: "68",
+                        position: { lng: 120.158325, lat: 30.328176 },
+                        title: "国家电网浙江电力职业技术学院"
+                    },
+                    {
+                        id: "69",
+                        position: { lng: 120.316746, lat: 30.249196 },
+                        title: "浙江同济科技职业学院"
+                    },
+                    {
+                        id: "70",
+                        position: { lng: 120.031459, lat: 30.249828 },
+                        title: "浙江省机电技术学院(杭州校区)"
+                    },
+                    {
+                        id: "71",
+                        position: { lng: 120.159341, lat: 30.181483 },
+                        title: "浙江机电职业技术学院"
+                    },
+                    {
+                        id: "72",
+                        position: { lng: 120.305952, lat: 30.251047 },
+                        title: "浙江建设职业技术学院"
+                    },
+                    {
+                        id: "73",
+                        position: { lng: 120.137815, lat: 30.286201 },
+                        title: "浙江建设职业技术学院继续教育学院"
+                    },
+                    {
+                        id: "74",
+                        position: { lng: 120.149422, lat: 30.271773 },
+                        title: "浙江艺术职业学院继续教育学院"
+                    },
+                    {
+                        id: "75",
+                        position: { lng: 120.163619, lat: 30.180664 },
+                        title: "浙江艺术职业学院"
+                    },
+                    {
+                        id: "76",
+                        position: { lng: 120.171066, lat: 30.167596 },
+                        title: "浙江艺术职业学院(东冠校区)"
+                    },
+                    {
+                        id: "77",
+                        position: { lng: 120.388957, lat: 30.322745 },
+                        title: "浙江经贸职业技术学院"
+                    },
+                    {
+                        id: "78",
+                        position: { lng: 120.163506, lat: 30.300377 },
+                        title: "浙江商业职业技术学校(德胜校区)"
+                    },
+                    {
+                        id: "79",
+                        position: { lng: 120.170018, lat: 30.180782 },
+                        title: "浙江商业职业技师学院(滨江校区)"
+                    },
+                    {
+                        id: "80",
+                        position: { lng: 120.385724, lat: 30.314909 },
+                        title: "浙江经济职业技术学院"
+                    },
+                    {
+                        id: "81",
+                        position: { lng: 119.112218, lat: 29.686641 },
+                        title: "浙江旅游职业学院(千岛湖校区)"
+                    },
+                    {
+                        id: "82",
+                        position: { lng: 120.215471, lat: 30.19702 },
+                        title: "杭州市旅游职业学校(滨江校区)"
+                    },
+                    {
+                        id: "83",
+                        position: { lng: 120.188175, lat: 30.258114 },
+                        title: "杭州市旅游职业学校(葵巷校区)"
+                    },
+                    {
+                        id: "84",
+                        position: { lng: 120.308248, lat: 30.249692 },
+                        title: "浙江旅游职业学院(南校区)"
+                    },
+                    {
+                        id: "85",
+                        position: { lng: 120.312159, lat: 30.252434 },
+                        title: "浙江旅游职业学院(北校区)"
+                    },
+                    {
+                        id: "86",
+                        position: { lng: 120.366304, lat: 30.319593 },
+                        title: "浙江警官职业学院"
+                    },
+                    {
+                        id: "87",
+                        position: { lng: 120.389845, lat: 30.327442 },
+                        title: "浙江金融职业学院"
+                    },
+                    {
+                        id: "88",
+                        position: { lng: 120.360366, lat: 30.327007 },
+                        title: "杭州职业技术学院"
+                    },
+                    {
+                        id: "89",
+                        position: { lng: 119.905338, lat: 30.092438 },
+                        title: "杭州科技职业技术学院"
+                    },
+                    {
+                        id: "90",
+                        position: { lng: 120.25902, lat: 30.16013 },
+                        title: "杭州科技职业技术学院"
+                    },
+                    {
+                        id: "91",
+                        position: { lng: 120.122982, lat: 30.292266 },
+                        title: "杭州科技职业技术学校(文一西路)"
+                    },
+                    {
+                        id: "92",
+                        position: { lng: 120.169215, lat: 30.271807 },
+                        title: "杭州科技职业技术学校(狮虎桥路)"
+                    },
+                    {
+                        id: "93",
+                        position: { lng: 120.122324, lat: 30.172541 },
+                        title: "浙江体育职业技术学院"
+                    },
+                    {
+                        id: "94",
+                        position: { lng: 120.300084, lat: 30.259609 },
+                        title: "浙江体育职业技术学院"
+                    },
+                    {
+                        id: "95",
+                        position: { lng: 120.178477, lat: 30.275788 },
+                        title: "浙江体育职业技师学院(浙江体育大厦)"
+                    },
+                    {
+                        id: "96",
+                        position: { lng: 120.141349, lat: 30.284557 },
+                        title: "浙江体育职业技术学院"
+                    },
+                    {
+                        id: "97",
+                        position: { lng: 120.207133, lat: 30.291642 },
+                        title: "浙江特殊教育职业学院"
+                    },
+                    {
+                        id: "98",
+                        position: { lng: 120.021704, lat: 30.211684 },
+                        title: "浙江特殊教育职业学院"
+                    },
+                    {
+                        id: "99",
+                        position: { lng: 120.396066, lat: 30.315482 },
+                        title: "浙江育英职业技术学院"
+                    },
+                    {
+                        id: "100",
+                        position: { lng: 120.358584, lat: 30.31054 },
+                        title: "浙江育英职业技术学院"
+                    },
+                    {
+                        id: "101",
+                        position: { lng: 120.026378, lat: 30.21383 },
+                        title: "浙江长征职业技术学院"
+                    },
+                    {
+                        id: "102",
+                        position: { lng: 120.080886, lat: 30.259286 },
+                        title: "万向职业技术学院(1号校区)"
+                    },
+                    {
+                        id: "103",
+                        position: { lng: 120.083219, lat: 30.263884 },
+                        title: "万向职业技术学院(2号校区)"
+                    },
+
 
 
                 ],
@@ -381,36 +720,36 @@
             },
             handleSelect(key, keyPath) {
                 console.log(keyPath);
-                if(keyPath[0]=="1"){
-                    this.curDetail=this.foods[keyPath[1]-1].description;
-                }else if(keyPath[0]=="2"){
-                    this.curDetail=this.scenes[keyPath[1]-1].description;
-                }else if(keyPath[0]=="3"){
-                    this.curDetail=this.cultures[keyPath[1]-1].description;
+                if (keyPath[0] == "1") {
+                    this.curDetail = this.foods[keyPath[1] - 1].description;
+                } else if (keyPath[0] == "2") {
+                    this.curDetail = this.scenes[keyPath[1] - 1].description;
+                } else if (keyPath[0] == "3") {
+                    this.curDetail = this.cultures[keyPath[1] - 1].description;
                 }
-                this.center.lng=120.371272;
-                this.center.lat=30.32652;
+                this.center.lng = 120.371272;
+                this.center.lat = 30.32652;
                 console.log(this.center);
                 intro.isSelect = true;
             },
-            syncCenterAndZoom (e) {
-                const {lng, lat} = e.target.getCenter()
+            syncCenterAndZoom(e) {
+                const { lng, lat } = e.target.getCenter()
                 this.center.lng = lng
                 this.center.lat = lat
                 this.zoom = e.target.getZoom()
             },
-            search(){
-                this.markerViewList=[]
-                for(i=0;i<this.regulars.length;i++){
+            search() {
+                this.markerViewList = []
+                for (i = 0; i < this.regulars.length; i++) {
                     let t = this.regulars[i]
-                    if(t.title.includes(this.keyword)){
-                    this.markerViewList.push(t)
+                    if (t.title.includes(this.keyword)) {
+                        this.markerViewList.push(t)
                     }
                 }
-                for(i=0;i<this.juniors.length;i++){
+                for (i = 0; i < this.juniors.length; i++) {
                     let t = this.juniors[i]
-                    if(t.title.includes(this.keyword)){
-                    this.markerViewList.push(t)
+                    if (t.title.includes(this.keyword)) {
+                        this.markerViewList.push(t)
                     }
                 }
             }
