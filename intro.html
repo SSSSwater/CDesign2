@@ -81,13 +81,13 @@
         <div class="container">
             <header class=" align-items-center py-3 mb-4 border-bottom">
 
-                <h1 class="top-text">杭州</h1>
+                <h1 class="top-text">杭州部分高校查询</h1>
 
             </header>
         </div>
         <div class="container" style="overflow-y: auto;height: 80%">
 
-            <div class="container" style="margin-bottom: 5%">
+            <div class="container" style="margin-bottom: 2%">
 
                 <el-row :glutter="20">
                     <el-col :span="4">
@@ -104,12 +104,12 @@
                 <el-col :span="6">
                     <div style="height: 70%;overflow: auto">
                         <el-row>
-                            <el-col :span="9"><label style="font-size: 25px">xx景点!</label></el-col>
+                            <el-col :span="9"><label style="font-size: 25px">分类查找</label></el-col>
                         </el-row>
                         <el-menu default-active="" @select="handleSelect" class="el-menu-vertical-demo">
                             <el-submenu index="1">
                                 <template slot="title">
-                                    <i class="el-icon-knife-fork"></i>
+                                    <i class="el-icon-reading"></i>
                                     <span>本科</span>
                                 </template>
                                 <el-menu-item-group>
@@ -119,7 +119,7 @@
                             </el-submenu>
                             <el-submenu index="2">
                                 <template slot="title">
-                                    <i class="el-icon-position"></i>
+                                    <i class="el-icon-collection"></i>
                                     <span>专科</span>
                                 </template>
                                 <el-menu-item-group>
@@ -131,7 +131,7 @@
                     </div>
                 </el-col>
                 <el-col :span="6">
-                    <div style="height: 90%;overflow: auto">
+                    <div style="height: 80%;overflow: auto">
                         <el-descriptions class="margin-top" :title="curName" :column="1" direction="vertical"
                             label-class-name="desLabel" content-class-name="desFont">
                             <el-descriptions-item label="简要介绍">
@@ -145,7 +145,7 @@
                     <label>纬度：</label><input v-model.number="center.lat">
                     <label>缩放：</label><input v-model.number="zoom">
                     <label>地区：<input v-model="location"></label> -->
-                    <baidu-map :center="center" :zoom="zoom" @ready="handler" style="height: 95%;width: 99%;"
+                    <baidu-map :center="center" :zoom="zoom" @ready="handler" style="height: 85%;width: 86%;"
                         :scroll-wheel-zoom="true" @moving="syncCenterAndZoom" @moveend="syncCenterAndZoom"
                         @zoomend="syncCenterAndZoom">
                         <bm-geolocation anchor="BMAP_ANCHOR_BOTTOM_RIGHT" :showAddressBar="true"
@@ -177,7 +177,14 @@
                     {
                         id: "1",
                         position: { lng: 120.371272, lat: 30.32652 },
-                        title: "中国计量大学"
+                        title: "中国计量大学",
+                        description:{
+                            address:"",
+                            website:"",
+                            date:"",
+                            content:"",
+                            image:""
+                        }
                     },
                     {
                         id: "2",
@@ -327,13 +334,15 @@
                 console.log(keyPath);
                 if (keyPath[0] == "1") {
                     this.curDetail = this.regulars[keyPath[1] - 1].description;
+                    this.keyword=this.regulars[keyPath[1] - 1].title;
+                    this.center=this.regulars[keyPath[1] - 1].position;
                 } else if (keyPath[0] == "2") {
-                    this.curDetail = this.juniors[keyPath[1] - 1].description;
+                    this.curDetail = this.juniors[keyPath[1] - 1-this.regulars.length].description;
+                    this.keyword=this.juniors[keyPath[1] - 1-this.regulars.length].title;
+                    this.center=this.juniors[keyPath[1] - 1-this.regulars.length].position;
                 }
-                this.center.lng = 120.371272;
-                this.center.lat = 30.32652;
-                console.log(this.center);
-                intro.isSelect = true;
+                this.search();
+                this.isSelect = true;
             },
             syncCenterAndZoom(e) {
                 const { lng, lat } = e.target.getCenter()
