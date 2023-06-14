@@ -96,6 +96,7 @@
                     <el-col :span="20">
                         <el-input placeholder="请输入内容" v-model="keyword" class="input-with-select" value="">
                             <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+                            <el-button slot="append" icon="el-icon-arrow-down" @click="nextMarker"></el-button>
                         </el-input>
                     </el-col>
                 </el-row>
@@ -106,7 +107,7 @@
                         <el-row>
                             <el-col :span="9"><label style="font-size: 25px">分类查找</label></el-col>
                         </el-row>
-                        <el-menu default-active="" @select="handleSelect" class="el-menu-vertical-demo">
+                        <el-menu default-active="" @select="handleSelect" class="el-menu-vertical-demo" @close="clear">
                             <el-submenu index="1">
                                 <template slot="title">
                                     <i class="el-icon-reading"></i>
@@ -166,7 +167,7 @@
 <!--                        <bm-local-search :keyword="keyword" :auto-viewport="true"-->
 <!--                            :location="location"></bm-local-search>-->
                         <bm-marker v-for="(marker) in markerViewList" :id="marker.id" :position="marker.position"
-                            :title="marker.title"></bm-marker>
+                            :title="marker.title" @click="handleSelect1(marker)"></bm-marker>
                     </baidu-map>
 
                 </el-col>
@@ -272,7 +273,7 @@
                     },
                     {
                         id: '8',
-                        position: { lng: 120.160812, lat: 30.177501 },
+                        position: { lng: 120.155494, lat: 30.181093 },
                         title: "浙江中医药大学(滨文校区)",
                         description:{
                             address:"浙江省杭州市滨江区滨文路548号",
@@ -458,7 +459,7 @@
                         position: { lng: 120.163619, lat: 30.180664 },
                         title: "浙江艺术职业学院",
                         description:{
-                            address:"",
+                            address:"杭州市滨江区滨文路518号",
                             website:"https://www.zjvaa.edu.cn",
                             date:"2002年1月",
                             content:"浙江艺术职业学院（Zhejiang Vocational Academy of Art），位于浙江省杭州市，是一所由浙江省文化厅举办的省属全日制高职院校，2012年9月入选浙江省示范性高职院校。浙江艺术职业学院的前身主体为成立于1955年5月的浙江艺术学校和成立于1951年11月的浙江省电影学校；1999年12月，两校合并筹建浙江艺术职业学院；2002年1月，正式成立浙江艺术职业学院；2015年11月，增挂“浙江公共文化管理学院”。截至2018年12月，浙江艺术职业学院为社会艺术水平考级机构。2019年12月，被教育部、财政部列入第四类高水平专业群建设单位（C档）。",
@@ -489,15 +490,27 @@
                             image:"img/浙特.webp"
                         }
                     },
+                    {
+                        id: "26",
+                        position: { lng: 120.207133, lat: 30.291642 },
+                        title: "aabbcc",
+                        description:{
+                            address:"浙江省杭州市西湖区留和路527号",
+                            website:"https://www.zcse.edu.cn",
+                            date:"1993年",
+                            content:"浙江特殊教育职业学院（Zhejiang Vocational College of Special Education），位于浙江省杭州市，是由浙江省残联举办和管理、专科层次的公办普通高等职业学校，是浙江省唯一一所主要面向残疾人开展中、高等职业教育的特殊教育高等院校。学校办学历史可追溯至1993年创办的浙江省残疾人职业技术学校，创办初期主要开展残疾人成人教育和职业培训。1998年5月，学校开始全日制中专学历教育。2000年起，学校先后与浙江广播电视大学、浙江教育学院、浙江艺术职业学院等高校合作，开展残疾人高等教育。2001年12月，浙江省残疾人职业技术学校更名为浙江省华强中等职业学校。2014年4月，经浙江省人民政府批准并经教育部备案，浙江特殊教育职业学院正式建立。",
+                            image:"img/浙特.webp"
+                        }
+                    },
                 ],
                 curId: "",
                 curTitle: "",
                 curDetail: {},
                 center: {
-                    lng: 120.371272,
-                    lat: 30.32652
+                    lng: 120.20951,
+                    lat: 30.273904
                 },
-                zoom: 15,
+                zoom: 11,
                 location: '',
                 keyword: '',
                 marker: 0
@@ -506,9 +519,9 @@
         methods: {
             handler({ BMap, map }) {
                 console.log(BMap, map)
-                this.center.lng = 120.371272
-                this.center.lat = 30.32652
-                this.zoom = 15
+                this.center.lng = 120.20951
+                this.center.lat = 30.273904
+                this.zoom = 11
             },
             handleSelect(key, keyPath) {
                 console.log(keyPath);
@@ -526,6 +539,13 @@
                 this.search();
                 this.isSelect = true;
             },
+            handleSelect1(t){
+                this.curDetail = t.description;
+                this.curTitle=t.title;
+                this.center.lng = t.position.lng;
+                this.center.lat = t.position.lat;
+                this.isSelect = true;
+            },
             syncCenterAndZoom(e) {
                 const { lng, lat } = e.target.getCenter()
                 this.center.lng = lng
@@ -533,34 +553,56 @@
                 this.zoom = e.target.getZoom()
             },
             search() {
+                let re=''
+                for(i=0;i<this.keyword.length;i++){
+                    re+='\\S{0,}'
+                    re+=this.keyword.substring(i,i+1)
+                }
+                re+='\\S{0,}'
+                console.log(re)
+                re=new RegExp(re)
+                console.log(re)
                 this.marker=0
                 this.markerViewList = []
                 for (i = 0; i < this.regulars.length; i++) {
                     let t = this.regulars[i]
-                    if (t.title.includes(this.keyword)) {
+                    if(re.test(t.title)){
                         this.markerViewList.push(t)
                     }
                 }
                 for (i = 0; i < this.juniors.length; i++) {
                     let t = this.juniors[i]
-                    if (t.title.includes(this.keyword)) {
+                    if(re.test(t.title)){
                         this.markerViewList.push(t)
                     }
                 }
-                this.zoom='15'
-                this.center.lng=this.markerViewList[0].position.lng
-                this.center.lat=this.markerViewList[0].position.lat
+                
+                if(this.keyword==''){
+                    this.center.lng = 120.20951
+                    this.center.lat = 30.273904
+                    this.zoom = 11
+                }else{
+                    this.zoom=16
+                    this.center.lng=this.markerViewList[0].position.lng
+                    this.center.lat=this.markerViewList[0].position.lat
+                    this.handleSelect1(this.markerViewList[this.marker])
+                }
             },
             nextMarker(){
-                marker++
-                if(marker==this.markerViewList.length){
-                    marker=0
+                if(this.marker==this.markerViewList.length){
+                    this.marker=0
                 }
-                this.center.lng=this.markerViewList[marker].position.lng
-                this.center.lat=this.markerViewList[marker].position.lat
-
+                this.center.lng=this.markerViewList[this.marker].position.lng
+                this.center.lat=this.markerViewList[this.marker].position.lat
+                this.keyword=this.markerViewList[this.marker].title
+                this.zoom=16
+                this.handleSelect1(this.markerViewList[this.marker])
+                this.marker++
+            },
+            clear(){
+                this.keyword=''
+                this.search()
             }
-
         }
     })
 
