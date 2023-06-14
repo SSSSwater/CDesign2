@@ -94,8 +94,8 @@
                         <label style="font-size: 25px">关键字检索</label>
                     </el-col>
                     <el-col :span="20">
-                        <el-input placeholder="请输入内容" @input="search" v-model="keyword" class="input-with-select" value="">
-                            <el-button slot="append" icon="el-icon-search"></el-button>
+                        <el-input placeholder="请输入内容" v-model="keyword" class="input-with-select" value="">
+                            <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
                         </el-input>
                     </el-col>
                 </el-row>
@@ -499,7 +499,8 @@
                 },
                 zoom: 15,
                 location: '',
-                keyword: ''
+                keyword: '',
+                marker: 0
             }
         },
         methods: {
@@ -532,6 +533,7 @@
                 this.zoom = e.target.getZoom()
             },
             search() {
+                this.marker=0
                 this.markerViewList = []
                 for (i = 0; i < this.regulars.length; i++) {
                     let t = this.regulars[i]
@@ -546,6 +548,17 @@
                     }
                 }
                 this.zoom='15'
+                this.center.lng=this.markerViewList[0].position.lng
+                this.center.lat=this.markerViewList[0].position.lat
+            },
+            nextMarker(){
+                marker++
+                if(marker==this.markerViewList.length){
+                    marker=0
+                }
+                this.center.lng=this.markerViewList[marker].position.lng
+                this.center.lat=this.markerViewList[marker].position.lat
+
             }
 
         }
