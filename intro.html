@@ -130,17 +130,29 @@
                         </el-menu>
                     </div>
                 </el-col>
-                <el-col :span="6">
+                <el-col :span="8">
                     <div style="height: 80%;overflow: auto">
-                        <el-descriptions class="margin-top" :title="curName" :column="1" direction="vertical"
-                            label-class-name="desLabel" content-class-name="desFont">
-                            <el-descriptions-item label="简要介绍">
-                                <span style="margin-left: 5px">{{curDetail}}</span>
+                        <el-descriptions class="margin-top" :title="curTitle" :column="2" direction="vertical"
+                            label-class-name="desLabel" content-class-name="desFont" v-if="isSelect" border>
+                            <el-descriptions-item label="校标">
+                                <span style="margin-left: 5px"><el-image :src="curDetail.image" style="width: 120px; height: 120px"></el-image></span>
+                            </el-descriptions-item>
+                            <el-descriptions-item label="详细地址">
+                                <span style="margin-left: 5px">{{curDetail.address}}</span>
+                            </el-descriptions-item>
+                            <el-descriptions-item label="官网">
+                                <span style="margin-left: 5px"><a :href="curDetail.website">{{curDetail.website}}</a></span>
+                            </el-descriptions-item>
+                            <el-descriptions-item label="成立时间">
+                                <span style="margin-left: 5px">{{curDetail.date}}</span>
+                            </el-descriptions-item>
+                            <el-descriptions-item label="详细介绍">
+                                <span style="margin-left: 5px">{{curDetail.content}}</span>
                             </el-descriptions-item>
                         </el-descriptions>
                     </div>
                 </el-col>
-                <el-col :span="12">
+                <el-col :span="10">
                     <!-- <label>经度：</label><input v-model.number="center.lng">
                     <label>纬度：</label><input v-model.number="center.lat">
                     <label>缩放：</label><input v-model.number="zoom">
@@ -179,11 +191,11 @@
                         position: { lng: 120.371272, lat: 30.32652 },
                         title: "中国计量大学",
                         description:{
-                            address:"",
-                            website:"",
-                            date:"",
-                            content:"",
-                            image:""
+                            address:"浙江省杭州市钱塘区下沙高教园区学源街258号",
+                            website:"http://www.cjlu.edu.cn",
+                            date:"1978年",
+                            content:"中国计量大学（China Jiliang University），简称中量大（CJLU），是国际上唯一一所以计量命名的本科院校。坐落于浙江省杭州市，是国家市场监督管理总局与浙江省人民政府共建高校、浙江省教育厅与义乌市人民政府共建重点高校、中国质量监督检验检疫领域唯一的本科高校，入选教育部“卓越工程师教育培养计划”、“新工科研究与实践项目”、国家级大学生创新创业训练计划，为“一带一路”标准化教育与研究大学联盟牵头单位。",
+                            image:"img/1.jpg"
                         }
                     },
                     {
@@ -311,9 +323,8 @@
                     },
                 ],
                 curId: "",
-                curName: "",
-                curDetail: "",
-                curImg: "",
+                curTitle: "",
+                curDetail: {},
                 center: {
                     lng: 120.371272,
                     lat: 30.32652
@@ -332,15 +343,16 @@
             },
             handleSelect(key, keyPath) {
                 console.log(keyPath);
+                let t;
                 if (keyPath[0] == "1") {
-                    this.curDetail = this.regulars[keyPath[1] - 1].description;
-                    this.keyword=this.regulars[keyPath[1] - 1].title;
-                    this.center=this.regulars[keyPath[1] - 1].position;
+                    t=this.regulars[keyPath[1] - 1];
                 } else if (keyPath[0] == "2") {
-                    this.curDetail = this.juniors[keyPath[1] - 1-this.regulars.length].description;
-                    this.keyword=this.juniors[keyPath[1] - 1-this.regulars.length].title;
-                    this.center=this.juniors[keyPath[1] - 1-this.regulars.length].position;
+                    t=this.juniors[keyPath[1] - 1-this.regulars.length];
                 }
+                this.curDetail = t.description;
+                this.keyword=t.title;
+                this.curTitle=t.title;
+                this.center=t.position;
                 this.search();
                 this.isSelect = true;
             },
