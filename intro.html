@@ -70,7 +70,7 @@
 </style>
 
 <body id="top" style="
-        font-family: '等线';">
+        font-family: '等线'">
     <script>
         Vue.use(VueBaiduMap.default, {
             ak: '1YLpdgUFuoXtxMQsiFlpn9G1BYdM1mM9'
@@ -576,17 +576,25 @@
                         this.markerViewList.push(t)
                     }
                 }
-                
-                if(this.keyword==''){
-                    this.center.lng = 120.20951
-                    this.center.lat = 30.273904
-                    this.zoom = 11
-                }else{
-                    this.zoom=16
-                    this.center.lng=this.markerViewList[0].position.lng
-                    this.center.lat=this.markerViewList[0].position.lat
-                    this.handleSelect1(this.markerViewList[this.marker])
-                }
+                console.log(this.markerViewList)
+                let temp = this.markerViewList;
+                this.markerViewList=[];
+
+                this.$nextTick(() => {
+
+                    this.markerViewList=temp;
+                    if(this.keyword==''){
+                        this.center.lng = 120.20951
+                        this.center.lat = 30.273904
+                        this.zoom = 11
+                    }else{
+                        this.zoom=16
+                        console.log(this.markerViewList[0])
+                        this.center.lng=this.markerViewList[0].position.lng
+                        this.center.lat=this.markerViewList[0].position.lat
+                        this.handleSelect1(this.markerViewList[this.marker])
+                    }
+                })
             },
             nextMarker(){
                 if(this.marker==this.markerViewList.length){
